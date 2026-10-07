@@ -17,11 +17,11 @@ GitHub `kiha797/inventory`에서 Cloudflare Workers로 배포하는 재고조사
 1. Cloudflare에서 **Workers & Pages → Create → Import a repository**를 선택합니다. 이 프로그램은 서버와 D1을 사용하므로 **Workers**로 연결합니다.
 2. 저장소 `kiha797/inventory`, 배포 브랜치 `main`, 루트 디렉터리 `/`를 선택합니다.
 3. **Storage & databases → D1 → Create database**에서 `inventory-db`를 생성하고 **Database ID**를 복사합니다.
-4. 프로젝트의 빌드 환경 변수에 `D1_DATABASE_ID`를 추가하고 복사한 Database ID를 입력합니다. `NODE_VERSION=24`, `PNPM_VERSION=11.25.0`도 설정합니다.
+4. 현재 `wrangler.json`에는 전달받은 `inventory-db`의 실제 Database ID가 반영되어 있습니다. `D1_DATABASE_ID` 빌드 변수는 생략할 수 있습니다. 이미 설정했다면 같은 실제 ID인지 확인하거나 삭제하세요. 다른 계정의 D1을 사용하는 경우에는 이 변수에 해당 Database ID를 입력합니다. `NODE_VERSION=24`, `PNPM_VERSION=11.25.0`도 설정합니다.
 5. 빌드 명령은 `pnpm run build`, 배포 명령은 `pnpm run deploy`로 입력합니다. 의존성 설치에는 저장소의 pnpm 잠금 파일을 사용합니다. 자동 설치를 사용하지 않는 환경에서는 `pnpm install --frozen-lockfile`을 먼저 실행합니다.
 6. 배포용 Cloudflare API 토큰에는 해당 계정의 Workers Scripts Edit와 D1 Edit 권한이 필요합니다. 토큰은 Cloudflare 설정에만 저장하고 GitHub 코드에는 넣지 않습니다.
 
-배포 명령은 SQL 마이그레이션을 먼저 적용하고 성공한 경우에만 Worker를 배포합니다. 저장소의 `wrangler.json`에는 **로컬 개발용 가상 Database ID**가 들어 있습니다. 빌드 환경 변수로 실제 ID를 반영하며, 실제 ID가 없으면 원격 배포는 중단됩니다.
+배포 명령은 SQL 마이그레이션을 먼저 적용하고 성공한 경우에만 Worker를 배포합니다. 저장소의 `wrangler.json`에는 실제 Database ID가 들어 있습니다. `D1_DATABASE_ID`를 설정하면 저장소의 ID보다 우선하므로 가상 ID나 다른 데이터베이스의 ID를 입력하지 마세요.
 
 ## inventory.ipharmkorea.com 연결
 
@@ -51,7 +51,7 @@ pnpm db:local
 pnpm dev
 ```
 
-로컬 D1과 실제 D1은 별개입니다. 원격 배포를 CLI에서 진행할 때는 `pnpm exec wrangler login` 후 `D1_DATABASE_ID` 환경 변수를 설정하고 `pnpm build`, `pnpm deploy` 순서로 실행합니다. 로컬 개발 중에는 기본 가상 ID로 동작하며 원격 데이터에 연결하지 않습니다.
+로컬 D1과 실제 D1은 별개입니다. 원격 배포를 CLI에서 진행할 때는 `pnpm exec wrangler login` 후 `pnpm build`, `pnpm deploy` 순서로 실행합니다. `pnpm db:local`과 `pnpm dev`는 로컬 데이터를 사용하며 원격 데이터에 연결하지 않습니다.
 
 ## 검증
 
