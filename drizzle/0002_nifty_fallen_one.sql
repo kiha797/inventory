@@ -1,0 +1,1 @@
+ALTER TABLE `settings` ADD `selected_bands` text DEFAULT '["super","high","middle"]' NOT NULL;

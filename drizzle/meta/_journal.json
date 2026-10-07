@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791347321392,
+      "tag": "0000_little_metal_master",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791349252433,
+      "tag": "0001_right_hellcat",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791350181257,
+      "tag": "0002_nifty_fallen_one",
+      "breakpoints": true
+    }
+  ]
+}
